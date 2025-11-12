@@ -35,7 +35,6 @@ def header():
     print("\t7. Delete product")
     print("\t8. Quit")
     print("-------------------------------------")
-    ch=int(input("\nEnter your choice: "))
 #3
 def Show_all():
 
@@ -61,7 +60,7 @@ def Search():
     except ValueError:
         print("Enter correct values!")  
 #5
-def Add_product():
+def Add_Product():
 
     id_no = int(input("Enter Product ID number: "))
     p_name = input("Enter Product name: ")
@@ -142,10 +141,15 @@ def Sales():
         print("Error processing sale:",e)
 #9
 def Delete():
-    
+
+    Show_all()
+
     try:
         d = int(input("Enter the Product id you want to delete:"))
-
+        ele=mycursor.execute("DELETE FROM Product WHERE id = {0}").format(d)
+        print(ele,"Deleted Successfully")
+    except ValueError:
+        print("Invalid input!")
 
 y = True
 while y:
@@ -166,16 +170,25 @@ while y:
         Search()
     
     elif ch == 3:
-
+        Add_Product()
 
     elif ch == 4:
-        Add_product()
+        Update_Quantity()
     
     elif ch == 5:
-        Sales()
+        Price()
     
+    elif ch == 6:
+        Sales()
+
+    elif ch == 7:
+        Delete()
+
+    elif ch == 8:
+        print("Have a Nice Day :)")
     else:   
         print("Functionality not yet implemented.")
+        break
 
 
     
