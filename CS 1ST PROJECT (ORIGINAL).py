@@ -68,7 +68,7 @@ def update_quantity():
         print("Quantity updated successfully.")
     except:
         print("Error updating quantity.")
-#hi
+
 def change_price():
     show_all()
     try:
@@ -88,24 +88,34 @@ def Sales():
         sold_qty = int(input("Enter quantity sold: "))
         mycursor.execute("SELECT quantity FROM Products WHERE id = {0}".format(id_no))
         product = mycursor.fetchone()
-        if product <= current_qty:
+        if product is None:
+            print("Product not Found")
+            return
+        name,price,current_qty=product
+        if sold_qty <= current_qty:
             new_qty = current_qty - sold_qty
             upd_val = "UPDATE Products SET quantity = {0} WHERE id = {1}".format(new_qty, id_no)
             mycursor.execute(upd_val)
             mydb.commit()
+            total = price * sold_qty
             print("Sale recorded successfully.")
             print("\n--- Bill ---")
             print("Mobiles Warehouse, Inc.")
             print("Bill No:", int(random.random()*100000))
-            print("Date:", datetime.datetime.now().date())
-            print("Time:", datetime.datetime.now().time())
-            print("Item:", item["name"], "Qty:", qty)
-            print("Total: ₹", to)
+            print("Date:", datetime.datetime.now().strftime("%d-%m-%Y"))
+            print("Time:", datetime.datetime.now().strftime("%H:%M:%S"))
+            print("Item:", name)
+            print("Qty:", sold_qty)
+            print("Total: ₹", total)
             print("Thank you!")
         else:
-            print("Insufficient stock.")
-    except:
-        print("Error processing sale.")
+            print("Insufficient stock.",current_qty,"only available")
+    except ValueError:
+        print("Invalid input.")
+    except mysql.connector.Error as err:
+        print("Database Error")
+    except Exception as e:
+        print("Error processing sale:",e)
 
 y = True
 while y:
@@ -119,6 +129,8 @@ while y:
         show_all()
     elif ch==4:
         add_product()
+    elif ch==5:
+        Sales()
     else:   
         print("Functionality not yet implemented.")
 
