@@ -1,30 +1,70 @@
 #---------------INVENTORY---MANAGEMENT---SYSTEM---------------
 
 #MODULES IMPORTED
-
 import random
 import datetime
 import mysql.connector
 
 #INTEGRATED DATABASE CONNECTION SETUP
+def verify():
+    try:
+        mydb=mysql.connector.connect(host="localhost",user="root",password="",database="inventory_db")
 
-try:
-    mydb = mysql.connector.connect(host="localhost", user="root", password="150309", database="inventory_db")
-    mycursor = mydb.cursor()
-    mycursor.execute("CREATE TABLE Products(id INT PRIMARY KEY, name VARCHAR(255), price INT, quantity INT)")
-except mysql.connector.errors.ProgrammingError as e:
-    print("Database table already exists, No worries!")
-    
+    except mysql.connector.errors.ProgrammingError:
+        mydb=mysql.connector.connect(host="localhost",user="root",password="")
+        mycursor=mydb.cursor()
+        mycursor.execute("create database inventory_db")
+        mydb.commit()
+        mycursor.execute("use inventory_db")
+        mydb.commit()
+        mycursor.execute("CREATE TABLE Products(id INT PRIMARY KEY, name VARCHAR(255), price INT, quantity INT)")
+        mydb.commit()
+        mycursor.close()
+
+mydb=mysql.connector.connect(host="localhost",user="root",password="",database="inventory_db")
+mycursor=mydb.cursor()
+
+
 #USER-DEFINED FUNCTIONS
+def user_interface():
+    while True:
+        Banner()
+        ch = int(input("Enter choice: "))
+
+        if ch == 1:
+            Show_all()
+        
+        elif ch == 2:
+            Search()
+        
+        elif ch == 3:
+            Add_Product()
+
+        elif ch == 4:
+            Update_Quantity()
+        
+        elif ch == 5:
+            Price()
+        
+        elif ch == 6:
+            Sales()
+
+        elif ch == 7:
+            Delete()
+
+        elif ch == 8:
+            print("Have a Nice Day :)")
+            mycursor.close()
+        else:   
+            print("wrong input!!!")
+            
+            
+
+#Banners under a def
 #1
 def Banner():
 
-    print("\n===================================")
-    print("   WELCOME TO MOBILES WAREHOUSE    ")
-    print("===================================")
-#2
-def header():
-
+    print("\n===================================\n   WELCOME TO MOBILES WAREHOUSE    \n===================================")
     print("\n-----------------MENU-----------------")
     print("\t1. Show Products")
     print("\t2. Search price/quantity")
@@ -34,7 +74,9 @@ def header():
     print("\t6. Sales")
     print("\t7. Delete product")
     print("\t8. Quit")
-    print("-------------------------------------")
+    print("----------------------------------------")
+
+
 #3
 def Show_all():
 
@@ -74,7 +116,7 @@ def Add_Product():
 
     print("Product added successfully.")
 #6
-def Update_Quantity():
+def Update_Quantity(): 
 
     Show_all()
 
@@ -102,7 +144,7 @@ def Price():
     except:
         print("Error updating price.")
 #8
-def Sales():
+def Sales(): #this is bugged out, i have to check it 
 
     Show_all()
 
@@ -151,45 +193,5 @@ def Delete():
     except ValueError:
         print("Invalid input!")
 
-y = True
-while y:
-
-    Banner()
-    header()
-
-    try:
-        ch = int(input("Enter choice: "))
-    
-    except:
-        ch = 0
-    
-    if ch == 1:
-        Show_all()
-    
-    elif ch == 2:
-        Search()
-    
-    elif ch == 3:
-        Add_Product()
-
-    elif ch == 4:
-        Update_Quantity()
-    
-    elif ch == 5:
-        Price()
-    
-    elif ch == 6:
-        Sales()
-
-    elif ch == 7:
-        Delete()
-
-    elif ch == 8:
-        print("Have a Nice Day :)")
-    else:   
-        print("Functionality not yet implemented.")
-        break
-
-
-    
-
+verify()
+user_interface()
