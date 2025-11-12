@@ -16,13 +16,15 @@ except mysql.connector.errors.ProgrammingError as e:
     print("Database table already exists, No worries!")
     
 #USER-DEFINED FUNCTIONS
-
+#1
 def Banner():
+
     print("\n===================================")
     print("   WELCOME TO MOBILES WAREHOUSE    ")
     print("===================================")
-
+#2
 def header():
+
     print("\n-----------------MENU-----------------")
     print("\t1. Show Products")
     print("\t2. Search price/quantity")
@@ -34,8 +36,9 @@ def header():
     print("\t8. Quit")
     print("-------------------------------------")
     ch=int(input("\nEnter your choice: "))
+#3
+def Show_all():
 
-def show_all():
     print("---------------INVENTORY---------------")
     mycursor.execute("SELECT * FROM Products")
     allproducts = mycursor.fetchall()
@@ -45,8 +48,21 @@ def show_all():
             print(product[0], " | ", product[1], " | ₹", product[2], " | ", product[3])
     else:
         print("No products found in inventory.")
+#4
+def Search():
 
-def add_product():
+    Show_all()
+
+    try:
+        search_id=int(input("Enter the product no. to change the Price/Quantity:"))
+        mycursor.execute("SELECT * FROM Product WHERE id = {0}".format(search_id))
+        s=mycursor.fetchone()
+        print(s)
+    except ValueError:
+        print("Enter correct values!")  
+#5
+def Add_product():
+
     id_no = int(input("Enter Product ID number: "))
     p_name = input("Enter Product name: ")
     price = int(input("Enter Product price: "))
@@ -54,11 +70,15 @@ def add_product():
     ins_val = "INSERT INTO Products VALUES ({0}, '{1}', {2}, {3})".format(id_no, p_name, price, quantity)
     mycursor.execute(ins_val)
     mydb.commit()
-    show_all()
-    print("Product added successfully.")
 
-def update_quantity():
-    show_all()
+    Show_all()
+
+    print("Product added successfully.")
+#6
+def Update_Quantity():
+
+    Show_all()
+
     try:
         id_no = int(input("Enter product ID number to update quantity: "))
         new_qty = int(input("Enter new quantity: "))
@@ -68,9 +88,11 @@ def update_quantity():
         print("Quantity updated successfully.")
     except:
         print("Error updating quantity.")
+#7
+def Price():
 
-def change_price():
-    show_all()
+    Show_all()
+
     try:
         id_no = int(input("Enter product ID number to change price: "))
         new_price = int(input("Enter new price: "))
@@ -80,9 +102,11 @@ def change_price():
         print("Price updated successfully.")
     except:
         print("Error updating price.")
-
+#8
 def Sales():
-    show_all()
+
+    Show_all()
+
     try:
         id_no = int(input("Enter product ID number sold: "))
         sold_qty = int(input("Enter quantity sold: "))
@@ -116,23 +140,43 @@ def Sales():
         print("Database Error")
     except Exception as e:
         print("Error processing sale:",e)
+#9
+def Delete():
+    
+    try:
+        d = int(input("Enter the Product id you want to delete:"))
+
 
 y = True
 while y:
+
     Banner()
     header()
+
     try:
         ch = int(input("Enter choice: "))
+    
     except:
         ch = 0
-    if ch==1:
-        show_all()
-    elif ch==4:
-        add_product()
-    elif ch==5:
+    
+    if ch == 1:
+        Show_all()
+    
+    elif ch == 2:
+        Search()
+    
+    elif ch == 3:
+
+
+    elif ch == 4:
+        Add_product()
+    
+    elif ch == 5:
         Sales()
+    
     else:   
         print("Functionality not yet implemented.")
 
 
     
+
