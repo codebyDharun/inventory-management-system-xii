@@ -68,7 +68,7 @@ def update_quantity():
         print("Quantity updated successfully.")
     except:
         print("Error updating quantity.")
-
+#hi
 def change_price():
     show_all()
     try:
