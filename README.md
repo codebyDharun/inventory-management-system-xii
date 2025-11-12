@@ -28,7 +28,7 @@ It offers a straightforward interface and robust functionality suitable for smal
 
 | Component | Description |
 |------------|-------------|
-| **Language** | Python 3.x |
+| **Language** | Python 3.11 |
 | **Database** | MySQL 8.0 |
 | **Connector** | mysql-connector-python |
 | **Interface** | Command-Line (CLI) |
