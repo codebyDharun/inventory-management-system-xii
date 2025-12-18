@@ -106,6 +106,20 @@ def Update_Quantity():
     except:
         print("Error updating quantity.")
 
+def Price():
+
+    Show_all()
+
+    try:
+        id_no = int(input("Enter product ID number to change price: "))
+        new_price = int(input("Enter new price: "))
+        upd_val = "UPDATE Products SET price = {0} WHERE id = {1}".format(new_price, id_no)
+        mycursor.execute(upd_val)
+        mydb.commit()
+        print("Price updated successfully.")
+    except:
+        print("Error updating price.")
+
 
 
 #Banners
