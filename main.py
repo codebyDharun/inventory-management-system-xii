@@ -87,15 +87,11 @@ def Add_Product():
     ins_val = "INSERT INTO Products VALUES ({0}, '{1}', {2}, {3})".format(id_no, p_name, price, quantity)
     mycursor.execute(ins_val)
     mydb.commit()
-
     Show_all()
-
     print("Product added successfully.")
 
 def Update_Quantity(): 
-
     Show_all()
-
     try:
         id_no = int(input("Enter product ID number to update quantity: "))
         new_qty = int(input("Enter new quantity: "))
@@ -107,9 +103,7 @@ def Update_Quantity():
         print("Error updating quantity.")
 
 def Price():
-
     Show_all()
-
     try:
         id_no = int(input("Enter product ID number to change price: "))
         new_price = int(input("Enter new price: "))
@@ -168,7 +162,7 @@ def Delete():
     finally:
         user_interface()
 
-#Banners
+#Banner
 def Banner():
 
     print("\n===================================\n   WELCOME TO MOBILES WAREHOUSE    \n===================================")
