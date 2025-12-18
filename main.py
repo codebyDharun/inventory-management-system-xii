@@ -19,6 +19,8 @@ def verify():
         mydb.commit()
         mycursor.execute("CREATE TABLE Products(id INT PRIMARY KEY, name VARCHAR(255), price INT, quantity INT)")
         mydb.commit()
+        mycursor.execute("INSERT INTO product VALUES (1, 'Samsung', 20000, 10),(2, 'iPhone', 80000, 12),(3, 'Oppo', 15000, 15),(4, 'Xiaomi', 10000, 20),(5, 'Vivo', 17000, 17)")
+        mydb.commit()
         mycursor.close()
 
 mydb=mysql.connector.connect(host="localhost",user="root",password="",database="inventory_db")
@@ -175,23 +177,20 @@ def Sales(): #this is bugged out, i have to check it
             print("Thank you!")
         else:
             print("Insufficient stock.",current_qty,"only available")
-    except ValueError:
-        print("Invalid input.")
-    except mysql.connector.Error as err:
-        print("Database Error")
-    except Exception as e:
-        print("Error processing sale:",e)
+    #except ValueError:
+        #print("Invalid input.")
+
 #9
 def Delete():
-
     Show_all()
-
     try:
         d = int(input("Enter the Product id you want to delete:"))
         ele=mycursor.execute("DELETE FROM Product WHERE id = {0}").format(d)
         print(ele,"Deleted Successfully")
     except ValueError:
         print("Invalid input!")
+    finally:
+        user_interface()
 
 verify()
 user_interface()
