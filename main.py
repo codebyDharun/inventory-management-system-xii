@@ -120,6 +120,42 @@ def Price():
     except:
         print("Error updating price.")
 
+def Sales():  # fixed version
+    Show_all()
+    try:
+        id_no = int(input("Enter product ID number sold: "))
+        sold_qty = int(input("Enter quantity sold: "))
+        mycursor.execute("SELECT name, price, quantity FROM Products WHERE id = {0}".format(id_no))
+        product = mycursor.fetchone()
+        if product is None:
+            print("Product not Found")
+            return
+
+        name, price, current_qty = product
+
+        if sold_qty <= current_qty:
+            new_qty = current_qty - sold_qty
+            upd_val = "UPDATE Products SET quantity = {0} WHERE id = {1}".format(new_qty, id_no)
+            mycursor.execute(upd_val)
+            mydb.commit()
+            total = price * sold_qty
+            print("Sale recorded successfully.")
+            print("\n--- Bill ---")
+            print("Mobiles Warehouse, Inc.")
+            print("Date:", datetime.datetime.now().strftime("%d-%m-%Y"))
+            print("Time:", datetime.datetime.now().strftime("%H:%M:%S"))
+            print("Item:", name)
+            print("Qty:", sold_qty)
+            print("Total: ₹", total)
+            print("Thank you!")
+        else:
+            print("Insufficient stock.", current_qty, "only available")
+
+    except ValueError:
+        print("Invalid input. Please enter numbers only.")
+
+    except Exception as e:
+        print("Error:", e)
 
 
 #Banners
