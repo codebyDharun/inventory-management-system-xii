@@ -157,6 +157,16 @@ def Sales():  # fixed version
     except Exception as e:
         print("Error:", e)
 
+def Delete():
+    Show_all()
+    try:
+        d = int(input("Enter the Product id you want to delete:"))
+        ele=mycursor.execute("DELETE FROM ProductS WHERE id = {0}".format(d))
+        print("Deleted Successfully")
+    except ValueError:
+        print("Invalid input!")
+    finally:
+        user_interface()
 
 #Banners
 def Banner():
