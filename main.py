@@ -92,6 +92,20 @@ def Add_Product():
 
     print("Product added successfully.")
 
+def Update_Quantity(): 
+
+    Show_all()
+
+    try:
+        id_no = int(input("Enter product ID number to update quantity: "))
+        new_qty = int(input("Enter new quantity: "))
+        upd_val = "UPDATE Products SET quantity = {0} WHERE id = {1}".format(new_qty, id_no)
+        mycursor.execute(upd_val)
+        mydb.commit()
+        print("Quantity updated successfully.")
+    except:
+        print("Error updating quantity.")
+
 
 
 #Banners
